@@ -7,8 +7,6 @@ import (
 )
 
 func main() {
-	fmt.Println("gus")
-
 	app := fiber.New(fiber.Config{
 		AppName:     "Webhook Redirector",
 		IdleTimeout: time.Second * 30,
@@ -16,11 +14,15 @@ func main() {
 		Prefork:     true,
 	})
 
-	app.Post("/handle", func(c *fiber.Ctx) error {
-		return c.SendString("here!")
-	})
+	app.Group("webhooks", func(ctx *fiber.Ctx) error {
+		ctx.Accepts("application/json")
 
-	fmt.Println("listening ...")
+		app.Post("/handle", func(c *fiber.Ctx) error {
+			return c.SendString("here!")
+		})
+
+		return nil
+	})
 
 	if result := app.Listen("localhost:8081"); result != nil {
 		fmt.Println("error ...")
