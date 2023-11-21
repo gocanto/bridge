@@ -16,7 +16,7 @@ func main() {
 		Prefork:     true,
 	})
 
-	app.Get("/all", func(c *fiber.Ctx) error {
+	app.Post("/handle", func(c *fiber.Ctx) error {
 		return c.SendString("here!")
 	})
 
