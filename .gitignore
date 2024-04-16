@@ -1,2 +1,12 @@
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
 .idea
 .env
+/database/data/*
+/database/ib_buffer_pool

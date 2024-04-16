@@ -1,0 +1,50 @@
+version: '3.9'
+networks:
+    bridge:
+        name: bridge
+        driver: bridge
+
+volumes:
+    database:
+
+services:
+    app:
+        env_file:
+            - .env
+        container_name: bridge_app
+        networks:
+            - bridge
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8080:8080"
+        depends_on:
+            - db
+
+    db:
+        image: mysql:8.3.0
+        container_name: bridge_db
+        restart: always
+        networks:
+            - bridge
+        env_file:
+            - .env
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-ppass"]
+            interval: 5s
+            timeout: 5s
+            retries: 20
+        volumes:
+            - ./database/data:/var/lib/mysql
+            - ./database:/docker-entrypoint-initdb.d
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE_NAME}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports:
+            - "3316:3306"
+        expose:
+            - "3306"
+            - "3316"
