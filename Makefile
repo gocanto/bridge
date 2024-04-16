@@ -39,3 +39,8 @@ stop:
 
 status:
 	docker-compose ps
+
+tests:
+	curl http://localhost:8080/service1 && \
+	curl http://localhost:8080/service2 && \
+	curl -H "X-Sender-ID: sender2" http://localhost:8080
