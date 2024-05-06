@@ -10,3 +10,5 @@ go.work
 .env
 /database/data/*
 /database/ib_buffer_pool
+/cmd/main
+.DS_Store

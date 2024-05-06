@@ -2,7 +2,7 @@ package bridge
 
 import (
 	"encoding/json"
-	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -10,21 +10,34 @@ type HandlerResponse struct {
 	Message string `json:"message"`
 }
 
-func Handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.URL, r.Body, r.RequestURI, &r.Response, r.Context(), &r)
+type Message struct {
+	Id      string `json:"id"`
+	Message string `json:"message"`
+}
 
-	//payload := Payload{
-	//	request: r,
-	//	writer:  &w,
-	//	body:    r.Body,
-	//	content: content,
-	//}
-	//
-	//content, err := r.Body.Read(payload.content)
-	//if err != nil {
-	//	return err
-	//}
-	//
+func Handler(w http.ResponseWriter, r *http.Request) {
+	body, err := io.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	var msg Message
+	err = json.Unmarshal(body, &msg)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	output, err := json.Marshal(msg)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(output)
+
 	//// Extract service identifier from the URL path
 	//path := strings.Trim(r.URL.Path, "/")
 	//var redirectURL string
@@ -50,18 +63,18 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	//	}
 	//}
 
-	w.Header().Set("Content-Type", "application/json")
-
-	handlerResponse := HandlerResponse{Message: "Ok"}
-	response, err := json.Marshal(handlerResponse)
-
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		_, _ = w.Write([]byte(fmt.Sprintf("%s", err)))
-		return
-	}
-
-	_, _ = w.Write(response)
+	//w.Header().Set("Content-Type", "application/json")
+	//
+	//handlerResponse := HandlerResponse{Message: "Ok..."}
+	//response, err := json.Marshal(handlerResponse)
+	//
+	//if err != nil {
+	//	w.WriteHeader(http.StatusInternalServerError)
+	//	_, _ = w.Write([]byte(fmt.Sprintf("%s", err)))
+	//	return
+	//}
+	//
+	//_, _ = w.Write(response)
 
 	//return json.NewEncoder(w).Encode(payload)
 

@@ -18,6 +18,22 @@ help:
 	@echo " "
 	@echo "----------------------------------------------"
 
+# Requires the air package to be installed globally.
+# https://github.com/cosmtrek/air
+kill:
+	#killall air
+	lsof -t -i tcp:8080 | xargs kill -9
+	lsof -t -i tcp:8081 | xargs kill -9
+
+start:
+	make kill
+	air
+
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+
+
 build:
 	go mod tidy && \
 	docker compose up app --build
