@@ -19,6 +19,7 @@ func makeEnv(env *entity.Env) error {
 
 	env.Mode = loader.GetString("APP_ENV")
 	env.LogLevel = loader.GetString("APP_LOG_LEVEL")
+	env.ServerPort = loader.GetString("APP_PORT")
 
 	watchFile(loader, &environment)
 

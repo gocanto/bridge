@@ -28,15 +28,11 @@ func init() {
 }
 
 func main() {
-
-	//fmt.Println("--->", viper.Get("app.name"))
-	// Config file found and successfully parsed
-
 	http.HandleFunc("/", bridge.Handler)
 
-	port := ":8080"
-	log.Printf("Server starting on port %s", port)
-	if err := http.ListenAndServe(port, nil); err != nil {
+	log.Printf("Server starting on port %s", environment.ServerPort)
+
+	if err := http.ListenAndServe(environment.ServerPort, nil); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
