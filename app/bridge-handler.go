@@ -5,6 +5,15 @@ import (
 	"strings"
 )
 
+type HandlerResponse struct {
+	Message string `json:"message"`
+}
+
+type Message struct {
+	Id      string `json:"id"`
+	Message string `json:"message"`
+}
+
 func Handler(w http.ResponseWriter, r *http.Request) {
 	// Extract service identifier from the URL path
 	path := strings.Trim(r.URL.Path, "/")
