@@ -12,3 +12,4 @@ go.work
 /database/ib_buffer_pool
 /cmd/main
 .DS_Store
+.air.toml
