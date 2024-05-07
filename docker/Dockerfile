@@ -1,10 +1,10 @@
 # Stage 1: Build the application and cache dependencies
 FROM golang:1.22 AS builder
 WORKDIR /app
-COPY go.mod .
-COPY go.sum .
+COPY ../go.mod .
+COPY ../go.sum .
 RUN go mod download
-COPY . .
+COPY .. .
 RUN go build -o main .
 
 # Stage 2: Create a minimal production image

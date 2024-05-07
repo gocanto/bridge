@@ -1,0 +1,11 @@
+app:
+    name: "Http Bridge"
+    version: 1
+
+services:
+    - name: "service1"
+      parser: "parser-struct-name"
+      rate_limit: 500
+      identifier:
+          id: "the-id-value"
+          default: "the-default-value"

@@ -4,19 +4,26 @@ include .env
 
 DB_NETWORK = bridge
 APP_PATH = $(shell pwd)
+APP_PATH = $(shell pwd)
+APP_PATH = $(shell pwd)
 
-help:
-	@echo " "
-	@echo "----------------------------------------------"
-	@echo "               Api CLI Help                   "
-	@echo "----------------------------------------------"
-	@echo " "
-	@echo "build .................................. Start the app container."
-	@echo "flush .................................. Remove all instances of the application."
-	@echo "status ................................. Display the status of all containers."
-	@echo "stop ................................... Destroy the application container."
-	@echo " "
-	@echo "----------------------------------------------"
+# Requires the air package to be installed globally.
+# https://github.com/cosmtrek/air
+kill:
+	#killall air
+	lsof -t -i tcp:8080 | xargs kill -9
+	lsof -t -i tcp:8081 | xargs kill -9
+
+start:
+	make kill
+	air
+
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+
+
+# Docker
 
 build:
 	go mod tidy && \
@@ -39,6 +46,9 @@ stop:
 
 status:
 	docker-compose ps
+
+
+# ---> Tests
 
 tests:
 	curl http://localhost:8080/service1 && \

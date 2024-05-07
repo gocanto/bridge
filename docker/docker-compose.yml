@@ -10,12 +10,12 @@ volumes:
 services:
     app:
         env_file:
-            - .env
+            - ../.env
         container_name: bridge_app
         networks:
             - bridge
         build:
-            context: .
+            context: ..
             dockerfile: Dockerfile
         ports:
             - "8080:8080"
@@ -29,7 +29,7 @@ services:
         networks:
             - bridge
         env_file:
-            - .env
+            - ../.env
         healthcheck:
             test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-ppass"]
             interval: 5s
