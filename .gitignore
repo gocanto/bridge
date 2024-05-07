@@ -11,5 +11,6 @@ go.work
 /database/data/*
 /database/ib_buffer_pool
 /cmd/main
+/tmp/build-errors.log
 .DS_Store
 .air.toml

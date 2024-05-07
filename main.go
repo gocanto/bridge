@@ -1,31 +1,52 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+	"github.com/fsnotify/fsnotify"
 	"github.com/gocanto/bridge/app"
+	"github.com/gocanto/bridge/app/entity"
 	"github.com/spf13/viper"
 	"log"
 	"net/http"
 )
 
-func main() {
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
+func init() {
 	viper.AddConfigPath(".")
+	viper.SetConfigName("./config/app")
+	viper.SetConfigType("yaml")
 
 	if err := viper.ReadInConfig(); err != nil {
-		var errorType viper.ConfigFileNotFoundError
-		if errors.As(err, &errorType) {
-			fmt.Println("config not found", errorType, err)
-			return
-		} else {
-			fmt.Println("Config file was found but another error was produced")
-			return
-		}
+		fmt.Println(fmt.Errorf("error reading config file:, %s", err))
+		return
 	}
 
-	fmt.Println("--->", viper.Get("app.name"))
+	viper.OnConfigChange(func(e fsnotify.Event) {
+		fmt.Println("Config file changed:", e.Name)
+	})
+
+	viper.WatchConfig()
+
+	var app entity.App
+	if err := viper.UnmarshalKey("app", &app); err != nil {
+		fmt.Println(fmt.Errorf("failed to unmarshal into config: %v", err))
+		return
+	}
+
+	var services []entity.Services
+	if err := viper.UnmarshalKey("services", &services); err != nil {
+		fmt.Println(fmt.Errorf("failed to unmarshal into config: %v", err))
+		return
+	}
+
+	app.Services = &services
+
+	fmt.Println(app, *app.Services)
+	fmt.Println("---------")
+}
+
+func main() {
+
+	//fmt.Println("--->", viper.Get("app.name"))
 	// Config file found and successfully parsed
 
 	http.HandleFunc("/", bridge.Handler)
