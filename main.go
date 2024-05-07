@@ -2,45 +2,28 @@ package main
 
 import (
 	"fmt"
-	"github.com/fsnotify/fsnotify"
 	"github.com/gocanto/bridge/app"
 	"github.com/gocanto/bridge/app/entity"
-	"github.com/spf13/viper"
 	"log"
 	"net/http"
 )
 
+var environment entity.Env
+var application entity.App
+
 func init() {
-	viper.AddConfigPath(".")
-	viper.SetConfigName("./config/app")
-	viper.SetConfigType("yaml")
-
-	if err := viper.ReadInConfig(); err != nil {
-		fmt.Println(fmt.Errorf("error reading config file:, %s", err))
-		return
+	if err := makeEnv(&environment); err != nil {
+		log.Fatal(fmt.Errorf("error reading ENV config file:, %s", err))
 	}
 
-	viper.OnConfigChange(func(e fsnotify.Event) {
-		fmt.Println("Config file changed:", e.Name)
-	})
-
-	viper.WatchConfig()
-
-	var app entity.App
-	if err := viper.UnmarshalKey("app", &app); err != nil {
-		fmt.Println(fmt.Errorf("failed to unmarshal into config: %v", err))
-		return
+	if err := makeAppConfig(&environment, &application); err != nil {
+		log.Fatal(fmt.Errorf("error reading the config file:, %s", err))
 	}
 
-	var services []entity.Services
-	if err := viper.UnmarshalKey("services", &services); err != nil {
-		fmt.Println(fmt.Errorf("failed to unmarshal into config: %v", err))
-		return
-	}
-
-	app.Services = &services
-
-	fmt.Println(app, *app.Services)
+	fmt.Println("---- Init ----")
+	fmt.Println("App:", application)
+	fmt.Println("Services:", *application.Services)
+	fmt.Println("Env:", *application.Environment)
 	fmt.Println("---------")
 }
 
