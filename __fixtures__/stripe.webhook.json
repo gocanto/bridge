@@ -72,7 +72,6 @@
                 "url": "/v1/subscription_items?subscription=sub_1Mqqb6Lt4dXK03v50OA219Ya"
             },
             "quantity": 1,
-            "schedule": null,
             "start_date": 1680064014,
             "status": "active"
         },
