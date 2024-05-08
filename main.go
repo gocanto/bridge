@@ -28,7 +28,7 @@ func init() {
 }
 
 func main() {
-	http.HandleFunc("/", bridge.Handler)
+	http.HandleFunc("/", bridge.Store)
 
 	log.Printf("Server starting on port %s", environment.ServerPort)
 
