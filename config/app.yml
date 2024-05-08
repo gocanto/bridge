@@ -1,11 +1,13 @@
 app:
     name: "Http Bridge"
-    version: 1
+    version: 0.1
 
 services:
-    - name: "service1"
-      parser: "parser-struct-name"
+    - name: "stripe"
       rate_limit: 500
-      identifier:
-          id: "the-id-value"
-          default: "the-default-value"
+      package:
+          path: "parser.stripe"
+          parser: "Webhook"
+          request_identifier:
+            id: "WebhookPayload.Id"
+            default: "WebhookPayload.Id"
