@@ -1,4 +1,4 @@
-package stripe_parser
+package stripe
 
 //https://docs.stripe.com/webhooks
 
