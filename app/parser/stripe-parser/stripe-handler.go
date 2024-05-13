@@ -1,8 +1,6 @@
-package stripe
+package stripe_parser
 
 import "net/http"
-
-//https://docs.stripe.com/webhooks
 
 type Webhook struct {
 }

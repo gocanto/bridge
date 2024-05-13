@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gocanto/bridge/app/entity"
-	"github.com/gocanto/bridge/app/parser/stripe"
+	"github.com/gocanto/bridge/app/parser/stripe-parser"
 	"io"
 	"log"
 	"net/http"
@@ -30,7 +30,7 @@ func Store(w http.ResponseWriter, r *http.Request) {
 	dec := json.NewDecoder(r.Body)
 	dec.DisallowUnknownFields()
 
-	var payload stripe.WebhookPayload
+	var payload stripe_parser.WebhookPayload
 	err := dec.Decode(&payload)
 
 	if err != nil {

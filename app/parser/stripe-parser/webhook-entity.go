@@ -1,4 +1,6 @@
-package stripe
+package stripe_parser
+
+//https://docs.stripe.com/webhooks
 
 type WebhookPayload struct {
 	Id         string      `json:"id"`

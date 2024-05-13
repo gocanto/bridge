@@ -3,12 +3,12 @@ app:
     version: 0.1
 
 services:
-    - name: "stripe"
+    - name: "stripe-parser"
       rate_limit: 500
       base_url: "https://api.stripe.com"
       api_version: "v1"
       package:
-          path: "parser.stripe"
+          path: "parser.stripe-parser"
           parser: "Webhook"
           request_identifier:
             id: "WebhookPayload.Id"
