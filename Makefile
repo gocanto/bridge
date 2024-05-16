@@ -2,9 +2,7 @@
 
 include .env
 
-DB_NETWORK = bridge
-APP_PATH = $(shell pwd)
-APP_PATH = $(shell pwd)
+DB_NETWORK = bridge_network
 APP_PATH = $(shell pwd)
 
 # Requires the air package to be installed globally.
@@ -42,10 +40,10 @@ flush:
 	rm -rf ./database/data
 
 stop:
-	docker-compose down --volumes
+	docker compose down --volumes
 
 status:
-	docker-compose ps
+	docker compose ps
 
 
 # ---> Tests

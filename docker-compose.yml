@@ -1,7 +1,6 @@
-version: '3.9'
 networks:
-    bridge:
-        name: bridge
+    bridge_network:
+        name: bridge_network
         driver: bridge
 
 volumes:
@@ -10,13 +9,13 @@ volumes:
 services:
     app:
         env_file:
-            - ../.env
+            - .env
         container_name: bridge_app
         networks:
-            - bridge
+            - bridge_network
         build:
-            context: ..
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: ./docker/Dockerfile
         ports:
             - "8080:8080"
         depends_on:
@@ -27,9 +26,9 @@ services:
         container_name: bridge_db
         restart: always
         networks:
-            - bridge
+            - bridge_network
         env_file:
-            - ../.env
+            - .env
         healthcheck:
             test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-ppass"]
             interval: 5s
