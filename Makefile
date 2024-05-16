@@ -50,6 +50,10 @@ status:
 
 # ---> Tests
 
+test\:stripe:
+	#https://docs.stripe.com/stripe-cli
+	stripe trigger payment_intent.succeeded
+
 tests:
 	curl http://localhost:8080/service1 && \
 	curl http://localhost:8080/service2 && \

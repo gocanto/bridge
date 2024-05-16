@@ -21,14 +21,14 @@ func init() {
 	}
 
 	fmt.Println("---- Init ----")
-	fmt.Println("App:", application)
-	fmt.Println("Services:", *application.Services)
-	fmt.Println("Env:", *application.Environment)
+	fmt.Println("--> App:", application)
+	fmt.Println("--> Services:", *application.Services)
+	fmt.Println("--> Env:", *application.Environment)
 	fmt.Println("---------")
 }
 
 func main() {
-	http.HandleFunc("/", bridge.Handler)
+	http.HandleFunc("/", bridge.Store)
 
 	log.Printf("Server starting on port %s", environment.ServerPort)
 
