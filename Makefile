@@ -27,9 +27,10 @@ build:
 	go mod tidy && \
 	docker compose up app --build
 
-build\:fresh:
+fresh\:ssh:
 	make flush && \
-	docker compose up app --build
+	docker compose up app --build -d && \
+	docker exec -it bridge_app /bin/bash
 
 flush:
 	docker compose down --remove-orphans
