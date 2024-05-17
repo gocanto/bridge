@@ -23,9 +23,9 @@ start:
 
 # Docker
 
-build:
+bridge:
 	go mod tidy && \
-	docker compose up app --build
+	docker compose up app --build -d
 
 fresh\:ssh:
 	make flush && \
