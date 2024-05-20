@@ -26,4 +26,21 @@ jobs:
               run: go version
 
             - name: Run Formatter
-              run: gofmt -s -w
+              run: |
+                  run: |
+                    # Check if files are formatted
+                    unformatted=$(gofmt -l .)
+                    if [ -n "$unformatted" ]; then
+                    echo "Go files are not formatted:"
+                    echo "$unformatted"
+                    echo "Formatting Go files"
+                  # Format files
+                    gofmt -w .
+                  # Show formatted files
+                    echo "Formatted files:"
+                    echo "$unformatted"
+                  # Exit with an error code to fail the action
+                    exit 1
+                    else
+                    echo "All Go files are properly formatted."
+                    fi
