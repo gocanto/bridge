@@ -24,3 +24,6 @@ jobs:
 
             - name: "Test Installation"
               run: go version
+
+            - name: Run Formatter
+              run: gofmt -s -w
