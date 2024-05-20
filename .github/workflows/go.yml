@@ -13,7 +13,11 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-go@v5
-            - name: "Check Version"
-              run: go version
-            - name: "Run formatter"
-              run: gofmt -s -w .
+              with:
+                  go-version: '1.22'
+                  check-latest: true
+                  cache-dependency-path: |
+                      subdir/go.sum
+                      tools/go.sum
+
+            - run: go version
