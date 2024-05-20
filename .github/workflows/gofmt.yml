@@ -1,0 +1,46 @@
+name: Go Fmt
+
+on: [pull_request]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                go: ['1.22']
+
+        name: Version ${{ matrix.go }} build.
+
+        steps:
+            - uses: actions/checkout@v4
+            - name: "Setup GO"
+              uses: actions/setup-go@v5
+              with:
+                  go-version: ${{ matrix.go }}
+                  check-latest: true
+                  cache-dependency-path: |
+                      subdir/go.sum
+                      tools/go.sum
+
+            - name: "Test Installation"
+              run: go version
+
+            - name: Run Formatter
+              run: |
+                  run: |
+                    # Check if files are formatted
+                    unformatted=$(gofmt -l .)
+                    if [ -n "$unformatted" ]; then
+                    echo "Go files are not formatted:"
+                    echo "$unformatted"
+                    echo "Formatting Go files"
+                  # Format files
+                    gofmt -w .
+                  # Show formatted files
+                    echo "Formatted files:"
+                    echo "$unformatted"
+                  # Exit with an error code to fail the action
+                    exit 1
+                    else
+                    echo "All Go files are properly formatted."
+                    fi
