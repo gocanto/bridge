@@ -11,10 +11,8 @@ jobs:
         runs-on: ${{ matrix.os }}
 
         steps:
-            - name: "Checkout Code"
-              uses: actions/checkout@v4
-            - name: "Install GO"
-              uses: actions/setup-go@v5
+            - uses: actions/checkout@v4
+            - uses: actions/setup-go@v5
             - name: "Check Version"
               run: go version
             - name: "Run formatter"
