@@ -13,7 +13,7 @@ RUN go mod download
 COPY . .
 
 RUN CGO_ENABLED=0 GOARCH=amd64 GOOS=linux
-RUN go build -o main .
+RUN go build -a -o main .
 
 # Stage 2: Create a minimal production image
 FROM golang:1.22 AS production
