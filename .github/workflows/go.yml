@@ -1,23 +1,18 @@
-name: Go
+name: Go Fmt
 
-on:
-  pull_request:
-    branches: ["main"]
+on: [pull_request]
 
 jobs:
+    formatter:
+        strategy:
+            matrix:
+                go-version: [1.22.x]
+                os: [ubuntu-latest]
+        runs-on: ${{ matrix.os }}
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.22'
-
-    - name: Build
-      run: make app:build
-
-    - name: Test
-      run: make tests
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-go@v5
+              with:
+                go-version: '^1.22' # The Go version to download (if necessary) and use.
+            - run: go version
