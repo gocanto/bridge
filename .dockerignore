@@ -1,0 +1,9 @@
+.air.local.toml
+.air.toml
+.editorconfig
+.env.example
+.git
+.gitignore
+.idea
+.dockerignore
+LICENSE
